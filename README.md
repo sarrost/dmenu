@@ -22,3 +22,8 @@ Afterwards enter the following command to build and install dmenu
 Running dmenu
 -------------
 See the man page for details.
+
+Patches
+-------
+[Alpha patch](https://gist.github.com/oibind/d17b79025765f53e99716fb1ee780c88)
+
