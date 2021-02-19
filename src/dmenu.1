@@ -10,6 +10,8 @@ dmenu \- dynamic menu
 .IR font ]
 .RB [ -fz ]
 .RB [ -Fz ]
+.RB [ \-h
+.IR height ]
 .RB [ \-l
 .IR lines ]
 .RB [ \-m
@@ -67,6 +69,9 @@ dmenu fuzzy matches menu items.
 .TP
 .B \-Fz
 dmenu does not fuzzy match menu items.
+.TP
+.BI \-h " height"
+dmenu uses a menu line of at least 'height' pixels tall, but no less than 8.
 .TP
 .B \-i
 dmenu matches menu items case insensitively.
