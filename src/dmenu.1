@@ -3,26 +3,30 @@
 dmenu \- dynamic menu
 .SH SYNOPSIS
 .B dmenu
-.RB [ \-bfiv ]
+.RB [ \-bcCfLiIv ]
+.RB [ \-bw
+.IR borderwidth ]
+.RB [ \-fn
+.IR font ]
+.RB [ -fz ]
+.RB [ -Fz ]
 .RB [ \-l
 .IR lines ]
 .RB [ \-m
 .IR monitor ]
-.RB [ \-p
-.IR prompt ]
-.RB [ \-fn
-.IR font ]
 .RB [ \-nb
 .IR color ]
 .RB [ \-nf
 .IR color ]
-.RB [ \-sb
-.IR color ]
-.RB [ \-sf
-.IR color ]
 .RB [ \-nhb
 .IR color ]
 .RB [ \-nhf
+.IR color ]
+.RB [ \-p
+.IR prompt ]
+.RB [ \-sb
+.IR color ]
+.RB [ \-sf
 .IR color ]
 .RB [ \-shb
 .IR color ]
@@ -66,6 +70,9 @@ dmenu does not fuzzy match menu items.
 .TP
 .B \-i
 dmenu matches menu items case insensitively.
+.TP
+.B \-I
+dmenu matches menu items case sensitively.
 .TP
 .BI \-l " lines"
 dmenu lists items vertically, with the given number of lines.

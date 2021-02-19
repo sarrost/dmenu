@@ -66,8 +66,9 @@ static Clr *scheme[SchemeLast];
 
 #include "config.h"
 
-static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
-static char *(*fstrstr)(const char *, const char *) = strstr;
+static char * cistrstr(const char *s, const char *sub);
+static int (*fstrncmp)(const char *, const char *, size_t) = strncasecmp;
+static char *(*fstrstr)(const char *, const char *) = cistrstr;
 
 static void
 xinitvisual()
@@ -891,9 +892,9 @@ setup(void)
 static void
 usage(void)
 {
-	fputs("usage: dmenu [-bcCfLiv] [-b borderwidth] [-fn font] [-l lines] [-m monitor] [-p prompt]\n"
-				"             [-nb color] [-nf color] [-sb color] [-sf color]\n"
-				"             [-nhb color] [-nhf color] [-shb color] [-shf color]\n"
+	fputs("usage: dmenu [-bcCfLiIv] [-bw borderwidth] [-fn font] [-fz] [-Fz] [-l lines]\n"
+				"             [-m monitor] [-nb color] [-nf color] [-nhb color] [-nhf color]\n"
+				"             [-p prompt] [-sb color] [-sf color] [-shb color] [-shf color]\n"
 				"             [-w windowid]\n" , stderr);
 	exit(1);
 }
@@ -906,57 +907,60 @@ main(int argc, char *argv[])
 
 	for (i = 1; i < argc; i++)
 		/* these options take no arguments */
-		if (!strcmp(argv[i], "-v")) {      /* prints version information */
-			puts("dmenu-"VERSION);
-			exit(0);
-		} else if (!strcmp(argv[i], "-b")) /* appears at the bottom of the screen */
+		if (!strcmp(argv[i], "-b"))	         /* appears at the bottom of the screen */
 			topbar = 0;
-		else if (!strcmp(argv[i], "-f"))   /* grabs keyboard before reading stdin */
-			fast = 1;
-		else if (!strcmp(argv[i], "-fz"))   /* enable fuzzy matching. */
-			fuzzy = 1;
-		else if (!strcmp(argv[i], "-Fz"))   /* disable fuzzy matching. */
-			fuzzy = 0;
-		else if (!strcmp(argv[i], "-c"))   /* centers dmenu on screen */
+		else if (!strcmp(argv[i], "-c"))     /* centers dmenu on screen */
 			centered = 1;
-		else if (!strcmp(argv[i], "-C"))   /* does not center dmenu on screen */
+		else if (!strcmp(argv[i], "-C"))     /* does not center dmenu on screen */
 			centered = 0;
-		else if (!strcmp(argv[i], "-i")) { /* case-insensitive item matching */
+		else if (!strcmp(argv[i], "-f"))     /* grabs keyboard before reading stdin */
+			fast = 1;
+		else if (!strcmp(argv[i], "-fz"))    /* enable fuzzy matching. */
+			fuzzy = 1;
+		else if (!strcmp(argv[i], "-Fz"))    /* disable fuzzy matching. */
+			fuzzy = 0;
+		else if (!strcmp(argv[i], "-i")) {   /* case-insensitive item matching */
 			fstrncmp = strncasecmp;
 			fstrstr = cistrstr;
+		} else if (!strcmp(argv[i], "-I")) { /* case-sensitive item matching */
+			fstrncmp = strncmp;
+			fstrstr = strstr;
+		} else if (!strcmp(argv[i], "-v")) { /* prints version information */
+			puts("dmenu-"VERSION);
+			exit(0);
 		} else if (i + 1 == argc)
 			usage();
 		/* these options take one argument */
+		else if (!strcmp(argv[i], "-bw"))  /* border width */
+			border_width = atoi(argv[++i]);
+		else if (!strcmp(argv[i], "-fn"))  /* font or font set */
+			fonts[0] = argv[++i];
 		else if (!strcmp(argv[i], "-l"))   /* number of lines in vertical list */
 			lines = atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-L"))   /* disable vertical list */
 			lines = 0;
-		else if (!strcmp(argv[i], "-m"))
+		else if (!strcmp(argv[i], "-m"))   /* display on monitor */
 			mon = atoi(argv[++i]);
-		else if (!strcmp(argv[i], "-p"))   /* adds prompt to left of input field */
-			prompt = argv[++i];
-		else if (!strcmp(argv[i], "-fn"))  /* font or font set */
-			fonts[0] = argv[++i];
 		else if (!strcmp(argv[i], "-nb"))  /* normal background color */
 			colors[SchemeNorm][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-nf"))  /* normal foreground color */
 			colors[SchemeNorm][ColFg] = argv[++i];
-		else if (!strcmp(argv[i], "-sb"))  /* selected background color */
-			colors[SchemeSel][ColBg] = argv[++i];
-		else if (!strcmp(argv[i], "-sf"))  /* selected foreground color */
-			colors[SchemeSel][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-nhb")) /* normal hi background color */
 			colors[SchemeNormHighlight][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-nhf")) /* normal hi foreground color */
 			colors[SchemeNormHighlight][ColFg] = argv[++i];
+		else if (!strcmp(argv[i], "-p"))   /* adds prompt to left of input field */
+			prompt = argv[++i];
+		else if (!strcmp(argv[i], "-sb"))  /* selected background color */
+			colors[SchemeSel][ColBg] = argv[++i];
+		else if (!strcmp(argv[i], "-sf"))  /* selected foreground color */
+			colors[SchemeSel][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-shb")) /* selected hi background color */
 			colors[SchemeSelHighlight][ColBg] = argv[++i];
 		else if (!strcmp(argv[i], "-shf")) /* selected hi foreground color */
 			colors[SchemeSelHighlight][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
 			embed = argv[++i];
-		else if (!strcmp(argv[i], "-bw"))
-			border_width = atoi(argv[++i]);  /* border width */
 		else
 			usage();
 

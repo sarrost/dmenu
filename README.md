@@ -30,3 +30,4 @@ Center patch ([dmenu-center-20200111-8cd37e1.diff](https://tools.suckless.org/dm
 Border patch ([dmenu-borderoption-20200217-bf60a1e.diff ](https://tools.suckless.org/dmenu/patches/border/))
 Fuzzy match patch ([dmenu-fuzzymatch-4.9.diff](https://tools.suckless.org/dmenu/patches/fuzzymatch/))
 Fuzzy highlight patch ([dmenu-fuzzyhighlight-4.9.diff](https://tools.suckless.org/dmenu/patches/fuzzyhighlight/))
+Case insensitive patch ([dmenu-caseinsensitive-5.0.diff](https://tools.suckless.org/dmenu/patches/case-insensitive/))
