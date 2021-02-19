@@ -32,3 +32,6 @@ static unsigned int lines      = 10;
  * for example: " /?\"&[]"
  */
 static const char worddelimiters[] = " ";
+
+/* -bw option; size of the window border. If zero then no border. */
+static unsigned int border_width = 1;

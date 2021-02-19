@@ -730,9 +730,11 @@ setup(void)
 	swa.border_pixel = 0;
 	swa.colormap = cmap;
 	swa.event_mask = ExposureMask | KeyPressMask | VisibilityChangeMask;
-	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, 0,
+	win = XCreateWindow(dpy, parentwin, x, y, mw, mh, border_width,
 	                    depth, InputOutput, visual,
 	                    CWOverrideRedirect | CWBackPixel | CWColormap | CWEventMask | CWBorderPixel, &swa);
+	if (border_width)
+		XSetWindowBorder(dpy, win, scheme[SchemeSel][ColBg].pixel);
 	XSetClassHint(dpy, win, &ch);
 
 	/* input methods */
@@ -760,7 +762,8 @@ static void
 usage(void)
 {
 	fputs("usage: dmenu [-bcCfLiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n", stderr);
+	      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
+				"             [-b borderwidth]\n", stderr);
 	exit(1);
 }
 
@@ -809,6 +812,8 @@ main(int argc, char *argv[])
 			colors[SchemeSel][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
 			embed = argv[++i];
+		else if (!strcmp(argv[i], "-bw"))
+			border_width = atoi(argv[++i]);  /* border width */
 		else
 			usage();
 
