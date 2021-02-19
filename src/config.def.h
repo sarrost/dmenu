@@ -1,12 +1,13 @@
 /* See LICENSE file for copyright and license details. */
 /* Default settings; can be overriden by command line. */
 
-static int topbar = 1;       /* -b  option; if 0, dmenu appears at bottom */
-static int centered = 1;     /* -c option; centers dmenu on screen */
+static int topbar    = 1;    /* -b  option; if 0, dmenu appears at bottom */
+static int fuzzy     = 1;    /* -fz option; if 0, dmenu doesn't use fuzzy matching */
+static int centered  = 1;    /* -c  option; if 1, centers dmenu on screen */
 static int min_width = 500;  /* minimum width when centered */
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
-	"monospace:size=10"
+	"monospace:size=14"
 };
 static const unsigned int bgalpha = 0xc8;
 static const unsigned int fgalpha = OPAQUE;
@@ -33,5 +34,5 @@ static unsigned int lines      = 10;
  */
 static const char worddelimiters[] = " ";
 
-/* -bw option; size of the window border. If zero then no border. */
+/* -bw option; if > 0, size of the window border. */
 static unsigned int border_width = 1;

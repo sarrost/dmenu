@@ -27,3 +27,5 @@ Patches
 -------
 Alpha patch ([dmenu-alpha-20200618.diff](https://gist.github.com/oibind/d17b79025765f53e99716fb1ee780c88))
 Center patch ([dmenu-center-20200111-8cd37e1.diff](https://tools.suckless.org/dmenu/patches/center/))
+Border patch ([dmenu-borderoption-20200217-bf60a1e.diff ](https://tools.suckless.org/dmenu/patches/border/))
+Fuzzy match patch ([dmenu-fuzzymatch-4.9.diff](https://tools.suckless.org/dmenu/patches/fuzzymatch/))
