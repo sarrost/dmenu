@@ -45,7 +45,7 @@ static char text[BUFSIZ] = "";
 static char *embed;
 static int bh, mw, mh;
 static int inputw = 0, promptw, passwd = 0;
-static int lrpad; /* sum of left and right padding */
+static int lrpad;            /* sum of left and right padding */
 static size_t cursor;
 static struct item *items = NULL;
 static struct item *matches, *matchend;
@@ -837,13 +837,13 @@ setup(void)
 					break;
 
 		if (centered) {
-			mw = MIN(MAX(max_textw() + promptw, min_width), info[i].width);
+			mw = (dmw > 0 ? dmw : MIN(MAX(max_textw() + promptw, min_width), info[i].width)) - border_width;
 			x = info[i].x_org + ((info[i].width  - mw) / 2);
 			y = info[i].y_org + ((info[i].height - mh) / 2);
 		} else {
-			x = info[i].x_org;
-			y = info[i].y_org + (topbar ? 0 : info[i].height - mh);
-			mw = info[i].width;
+			x = info[i].x_org + dmx;
+			y = info[i].y_org + (topbar ? dmy : info[i].height - mh - dmy);
+			mw = (dmw > 0 ? dmw : info[i].width) - border_width;
 		}
 
 		XFree(info);
@@ -855,13 +855,13 @@ setup(void)
 			    parentwin);
 
 		if (centered) {
-			mw = MIN(MAX(max_textw() + promptw, min_width), wa.width);
-			x = (wa.width  - mw) / 2;
-			y = (wa.height - mh) / 2;
+			mw = dmw > 0 ? dmw : MIN(MAX(max_textw() + promptw, min_width), wa.width);
+			x = (wa.width  - mw) / 2 - border_width;
+			y = (wa.height - mh) / 2 - border_width;
 		} else {
-			x = 0;
-			y = topbar ? 0 : wa.height - mh;
-			mw = wa.width;
+			x = dmx - border_width;
+			y = (topbar ? dmy : wa.height - mh - dmy) - border_width;
+			mw = (dmw > 0 ? dmw : wa.width);
 		}
 	}
 	inputw = MIN(inputw, mw/3);
@@ -907,7 +907,7 @@ usage(void)
 	fputs("usage: dmenu [-bcCfLiIPv] [-bw borderwidth] [-fn font] [-fz] [-Fz] [-h height]\n"
 				"             [-l lines] [-m monitor] [-nb color] [-nf color] [-nhb color]\n"
 				"             [-nhf color] [-p prompt] [-sb color] [-sf color] [-shb color]\n"
-				"             [-shf color] [-w windowid]\n" , stderr);
+				"             [-shf color] [-w windowid] [-x xoffset] [-y yoffset] [-z width]\n" , stderr);
 	exit(1);
 }
 
@@ -937,7 +937,9 @@ main(int argc, char *argv[])
 		} else if (!strcmp(argv[i], "-I")) { /* case-sensitive item matching */
 			fstrncmp = strncmp;
 			fstrstr = strstr;
-		} else if (!strcmp(argv[i], "-P"))   /* input is a password */
+		} else if (!strcmp(argv[i], "-L"))   /* disable vertical list */
+			lines = 0;
+		else if (!strcmp(argv[i], "-P"))   /* input is a password */
 			passwd = 1;
 		else if (!strcmp(argv[i], "-v")) { /* prints version information */
 			puts("dmenu-"VERSION);
@@ -955,8 +957,6 @@ main(int argc, char *argv[])
 		}
 		else if (!strcmp(argv[i], "-l"))   /* number of lines in vertical list */
 			lines = atoi(argv[++i]);
-		else if (!strcmp(argv[i], "-L"))   /* disable vertical list */
-			lines = 0;
 		else if (!strcmp(argv[i], "-m"))   /* display on monitor */
 			mon = atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-nb"))  /* normal background color */
@@ -979,6 +979,12 @@ main(int argc, char *argv[])
 			colors[SchemeSelHighlight][ColFg] = argv[++i];
 		else if (!strcmp(argv[i], "-w"))   /* embedding window id */
 			embed = argv[++i];
+		else if (!strcmp(argv[i], "-x"))   /* window x offset */
+			dmx = atoi(argv[++i]);
+		else if (!strcmp(argv[i], "-y"))   /* window y offset (from bottom up if -b) */
+			dmy = atoi(argv[++i]);
+		else if (!strcmp(argv[i], "-z"))   /* make dmenu this wide */
+			dmw = atoi(argv[++i]);
 		else
 			usage();
 

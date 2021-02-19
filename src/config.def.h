@@ -39,6 +39,10 @@ static unsigned int lines          = 10;
 /* -h option; minimum height of a menu line */
 static unsigned int lineheight     = 36;
 static unsigned int min_lineheight = 8;
+static int dmx                     = 0; /* -x option; put dmenu at this x offset */
+static int dmy                     = 0; /* -y option; put dmenu at this y offset (measured from the bottom if topbar is 0) */
+static unsigned int dmw            = 700; /* -z option; make dmenu this wide */
+
 
 /*
  * Characters not considered part of a word while deleting words
