@@ -223,7 +223,7 @@ drawitem(struct item *item, int x, int y, int w)
 		drw_setscheme(drw, scheme[SchemeNorm]);
 
 	r = drw_text(drw, x, y, w, bh, lrpad / 2, item->text, 0);
-	drawhighlights(item, x, y, w);
+	/* drawhighlights(item, x, y, w); */
 	return r;
 }
 
