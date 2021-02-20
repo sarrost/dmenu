@@ -28,3 +28,4 @@ See the man page for details.
 - Case insensitive patch ([dmenu-caseinsensitive-5.0.diff](https://tools.suckless.org/dmenu/patches/case-insensitive/))
 - Line height patch ([dmenu-lineheight-5.0.diff](https://tools.suckless.org/dmenu/patches/line-height/))
 - Password patch ([dmenu-password-4.9.diff](https://tools.suckless.org/dmenu/patches/password/))
+- Xyz patch ([dmenu-xyw-5.0.diff](https://tools.suckless.org/dmenu/patches/xyw/))

@@ -395,6 +395,13 @@ fuzzymatch(void)
 		free(fuzzymatches);
 	}
 	curr = sel = matches;
+
+	if(instant && matches && matches == matchend) {
+		puts(matches->text);
+		cleanup();
+		exit(0);
+	}
+
 	calcoffsets();
 }
 
@@ -453,6 +460,13 @@ match(void)
 		matchend = substrend;
 	}
 	curr = sel = matches;
+
+	if(instant && matches && matches == matchend && !lsubstr) {
+		puts(matches->text);
+		cleanup();
+		exit(0);
+	}
+
 	calcoffsets();
 }
 
@@ -904,7 +918,7 @@ setup(void)
 static void
 usage(void)
 {
-	fputs("usage: dmenu [-bcCfLiIPv] [-bw borderwidth] [-fn font] [-fz] [-Fz] [-h height]\n"
+	fputs("usage: dmenu [-bcCfLiInPv] [-bw borderwidth] [-fn font] [-fz] [-Fz] [-h height]\n"
 				"             [-l lines] [-m monitor] [-nb color] [-nf color] [-nhb color]\n"
 				"             [-nhf color] [-p prompt] [-sb color] [-sf color] [-shb color]\n"
 				"             [-shf color] [-w windowid] [-x xoffset] [-y yoffset] [-z width]\n" , stderr);
@@ -939,9 +953,11 @@ main(int argc, char *argv[])
 			fstrstr = strstr;
 		} else if (!strcmp(argv[i], "-L"))   /* disable vertical list */
 			lines = 0;
-		else if (!strcmp(argv[i], "-P"))   /* input is a password */
+		else if (!strcmp(argv[i], "-n"))     /* instant select only match */
+			instant = 1;
+		else if (!strcmp(argv[i], "-P"))     /* input is a password */
 			passwd = 1;
-		else if (!strcmp(argv[i], "-v")) { /* prints version information */
+		else if (!strcmp(argv[i], "-v")) {   /* prints version information */
 			puts("dmenu-"VERSION);
 			exit(0);
 		} else if (i + 1 == argc)

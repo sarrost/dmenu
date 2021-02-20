@@ -3,7 +3,7 @@
 dmenu \- dynamic menu
 .SH SYNOPSIS
 .B dmenu
-.RB [ \-bcCfLiIPv ]
+.RB [ \-bcCfLiInPv ]
 .RB [ \-bw
 .IR borderwidth ]
 .RB [ \-fn
@@ -73,6 +73,9 @@ dmenu does not appear centered on the screen.
 dmenu grabs the keyboard before reading stdin if not reading from a tty. This
 is faster, but will lock up X until stdin reaches end\-of\-file.
 .TP
+.BI \-fn " font"
+defines the font or font set used.
+.TP
 .B \-fz
 dmenu fuzzy matches menu items.
 .TP
@@ -104,8 +107,8 @@ defines the prompt to be displayed to the left of the input field.
 .BI \-P
 dmenu will not directly display the keyboard input, but instead replace it with dots. All data from stdin will be ignored.
 .TP
-.BI \-fn " font"
-defines the font or font set used.
+.B \-n
+dmenu instantly selects if only one match.
 .TP
 .BI \-nb " color"
 defines the normal background color.

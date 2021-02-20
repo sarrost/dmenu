@@ -1,11 +1,30 @@
 /* See LICENSE file for copyright and license details. */
 /* Default settings; can be overriden by command line. */
 
-static int topbar    = 1;    /* -b  option; if 0, dmenu appears at bottom */
-static int fuzzy     = 1;    /* -fz option; if 0, dmenu doesn't use fuzzy matching */
-static int centered  = 1;    /* -c  option; if 1, centers dmenu on screen */
-static int min_width = 500;  /* minimum width when centered */
-/* -fn option overrides fonts[0]; default X11 font or font set */
+/* -b  option; if 0, dmenu appears at bottom */
+static int topbar    = 1;
+/* -fz option; if 0, dmenu doesn't use fuzzy matching */
+static int fuzzy                   = 1;
+/* -c  option; if 1, centers dmenu on screen */
+static int centered                = 1;
+/* minimum width when centered */
+static int min_width               = 500;
+/* -n option; autoselect if theres one matching option left */
+static int instant                 = 0;
+/* -l option; if nonzero, dmenu uses vertical list with given number of lines */
+static unsigned int lines          = 10;
+/* -h option; minimum height of a menu line */
+static unsigned int lineheight     = 36;
+static unsigned int min_lineheight = 8;
+/* -x option; put dmenu at this x offset */
+static int dmx                     = 0;
+/* -y option; put dmenu at this y offset (measured from the bottom if topbar is 0) */
+static int dmy                     = 0;
+/* -z option; make dmenu this wide */
+static unsigned int dmw            = 700;
+/* -bw option; if > 0, size of the window border. */
+static unsigned int border_width = 1;
+/* -fn option; overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
 	"SauceCodePro Nerd Font Mono:size=16"
 };
@@ -34,21 +53,8 @@ static const unsigned int alphas[SchemeLast][2] = {
 	[SchemeOut]  = { fgalpha, bgalpha },
 };
 
-/* -l option; if nonzero, dmenu uses vertical list with given number of lines */
-static unsigned int lines          = 10;
-/* -h option; minimum height of a menu line */
-static unsigned int lineheight     = 36;
-static unsigned int min_lineheight = 8;
-static int dmx                     = 0; /* -x option; put dmenu at this x offset */
-static int dmy                     = 0; /* -y option; put dmenu at this y offset (measured from the bottom if topbar is 0) */
-static unsigned int dmw            = 700; /* -z option; make dmenu this wide */
-
-
 /*
  * Characters not considered part of a word while deleting words
  * for example: " /?\"&[]"
  */
 static const char worddelimiters[] = " ";
-
-/* -bw option; if > 0, size of the window border. */
-static unsigned int border_width = 1;
