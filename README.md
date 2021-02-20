@@ -1,6 +1,8 @@
 # dmenu
 A dynamic menu for X developed on [suckless.org](https://tools.suckless.org/dmenu/). This is my heavily modified/patched fork of dmenu, it is kept up to date (to my best ability) with the latest changes on the [upstream](https://git.suckless.org/dmenu/).
 
+![Screenshot](preview/screenshot.jpg "Screenshot")
+
 ## Features
 Features that are shipped by default are not listed, those I believe to be worth mentioning are listed.
 
